@@ -91,3 +91,17 @@ movie-ticket-booking-system/
 └── uml/
     ├── class-diagram.puml
     └── sequence-diagram.puml
+
+
+
+
+
+## UML Diagrams
+
+### Class Diagram
+
+![Class Diagram](uml/class-diagram.png)
+
+### Sequence Diagram
+
+![Sequence Diagram](uml/sequence-diagram.png)
