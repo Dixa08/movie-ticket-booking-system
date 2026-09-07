@@ -1,0 +1,11 @@
+# Compiled executable
+*.exe
+
+# Screen recordings
+*.mp4
+
+# VS Code
+.vscode/
+
+# Temporary files
+*.tmp

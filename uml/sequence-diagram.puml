@@ -1,0 +1,102 @@
+# Sequence Diagram for Ticket Booking System
+# alt+D
+```plantuml
+@startuml
+
+actor Customer
+
+participant BookingService
+
+participant Show
+
+participant ShowSeat
+
+participant PriceCalculator
+
+participant Payment
+
+participant Booking
+
+participant TicketPrinter
+
+Customer -> BookingService : bookTicket()
+
+activate BookingService
+
+BookingService -> Show : checkSeatAvailability()
+
+activate Show
+
+Show -> ShowSeat : isAvailable()
+
+activate ShowSeat
+
+ShowSeat --> Show : available
+
+deactivate ShowSeat
+
+Show --> BookingService : seat available
+
+deactivate Show
+
+BookingService -> ShowSeat : book()
+
+activate ShowSeat
+
+ShowSeat --> BookingService : seat reserved
+
+deactivate ShowSeat
+
+BookingService -> PriceCalculator : calculate(seats)
+
+activate PriceCalculator
+
+PriceCalculator --> BookingService : totalAmount
+
+deactivate PriceCalculator
+
+BookingService -> Payment : pay(totalAmount)
+
+activate Payment
+alt Payment Successful
+
+    Payment --> BookingService : payment successful
+    deactivate Payment
+
+    create Booking
+
+    BookingService -> Booking : create booking
+
+    BookingService -> Booking : confirm()
+
+    BookingService -> TicketPrinter : print(booking)
+
+    activate TicketPrinter
+
+    TicketPrinter --> BookingService : ticket printed
+
+    deactivate TicketPrinter
+
+    BookingService --> Customer : booking confirmed
+
+else Payment Failed
+
+    Payment --> BookingService : payment failed
+    deactivate Payment
+
+    BookingService -> ShowSeat : release()
+
+    activate ShowSeat
+
+    ShowSeat --> BookingService : seat available
+
+    deactivate ShowSeat
+
+    BookingService --> Customer : booking failed
+
+end
+
+deactivate BookingService
+
+@enduml
+```

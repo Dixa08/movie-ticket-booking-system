@@ -1,0 +1,120 @@
+@startuml
+
+class Movie {
+    - title : string
+    - language : string
+    - duration : int
+    + getTitle() : string
+    + getLanguage() : string
+    + getDuration() : int
+}
+
+class Seat {
+    - seatNumber : string
+    - seatType : string
+    + getSeatNumber() : string
+    + getSeatType() : string
+}
+
+class Screen {
+    - screenNumber : int
+    - seats : vector<Seat>
+    + addSeat(seat : Seat) : void
+    + getSeats() : vector<Seat>
+}
+
+class Cinema {
+    - name : string
+    - screens : vector<Screen>
+    + addScreen(screen : Screen) : void
+    + getScreens() : vector<Screen>
+}
+
+class Show {
+    - movie : Movie
+    - screen : Screen
+    - startTime : string
+    - showSeats : vector<ShowSeat>
+    + displaySeats() : void
+    + getMovie() : Movie
+    + getScreen() : Screen
+    + getStartTime() : string
+}
+
+class ShowSeat {
+    - seat : Seat
+    - status : string
+    + book() : void
+    + release() : void
+    + isAvailable() : bool
+}
+
+class Customer {
+    - name : string
+    - phone : string
+}
+
+class Booking {
+    - bookingId : int
+    - customer : Customer
+    - show : Show
+    - seats : vector<ShowSeat>
+    - totalAmount : double
+    - status : string
+    + confirm() : void
+    + cancel() : void
+}
+
+abstract class Payment {
+    + pay(amount : double) : bool
+}
+
+class UpiPayment {
+    + pay(amount : double) : bool
+}
+
+class CardPayment {
+    + pay(amount : double) : bool
+}
+
+class CashPayment {
+    + pay(amount : double) : bool
+}
+
+class PriceCalculator {
+    + calculate(seats : vector<ShowSeat>) : double
+}
+
+class TicketPrinter {
+    + print(booking : Booking) : void
+}
+
+class BookingService {
+    + bookTicket() : Booking
+    + cancelBooking(booking : Booking) : void
+}
+
+Cinema "1" *-- "1..*" Screen
+Screen "1" *-- "1..*" Seat
+
+Show "1" o-- "1" Movie
+Show "1" o-- "1" Screen
+Show "1" *-- "1..*" ShowSeat
+
+ShowSeat "1" --> "1" Seat
+
+Booking "1" --> "1" Customer
+Booking "1" o-- "1..*" ShowSeat
+Booking "1" --> "1" Show
+Booking "1" --> "1" Payment
+
+Payment <|-- UpiPayment
+Payment <|-- CardPayment
+Payment <|-- CashPayment
+
+BookingService --> Booking
+BookingService --> PriceCalculator
+BookingService --> Payment
+BookingService --> TicketPrinter
+
+@enduml
