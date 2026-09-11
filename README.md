@@ -18,6 +18,7 @@ The project models a single cinema where users can view movies, select shows, ch
 * 🧾 Ticket printing
 * ❌ Booking cancellation
 * 🔄 Release seats after cancellation
+* easy for user
 
 ---
 
